@@ -34,7 +34,7 @@ class Aplication(tk.Tk):
         self.combo_win.current(1) # Don`t Hide
         self.combo_win.pack(side=tk.LEFT)
 
-        ttk.Button(self.bar_manual, text="Move", command=self.config_win).pack(side=tk.LEFT)
+        ttk.Button(self.bar_manual, text="Move", command=self.move_win).pack(side=tk.LEFT)
         ttk.Button(self.bar_manual, text=">>>").pack(side=tk.LEFT)
 
         self.bar_power = ttk.LabelFrame(self, text="Power")
@@ -94,7 +94,7 @@ class Aplication(tk.Tk):
         self.ram_bar.configure(value=ram[2])
         self.whell_ram = self.after(1000, self.config_ram_bar)
 
-    def config_win(self):
+    def move_win(self):
         if self.wm_overrideredirect():
             self.overrideredirect(False)
         else:
@@ -122,7 +122,7 @@ class Aplication(tk.Tk):
         self.bar_ram_mini.pack(side=tk.LEFT)
 
         ttk.Button(self, text="Full", width=5).pack(side=tk.RIGHT)
-        ttk.Button(self, text="Move", width=5).pack(side=tk.RIGHT)
+        ttk.Button(self, text="Move", width=5, command=self.move_win).pack(side=tk.RIGHT)
 
         self.update()
         self.config_minimalistic_win()
