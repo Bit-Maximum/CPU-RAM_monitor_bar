@@ -9,8 +9,11 @@ class Aplication(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.set_window()
-        self.set_ui()
         self.cpu = CpuBar()
+        self.set_full_win()
+
+    def set_full_win(self):
+        self.set_ui()
         self.set_ram_usage()
         self.set_bar_cpu_usage()
         self.config_cpu_bars()
@@ -59,6 +62,14 @@ class Aplication(tk.Tk):
         self.ram_label.pack(fill=tk.X)
         self.ram_bar = ttk.Progressbar(self.bar_power, length=100)
         self.ram_bar.pack(fill=tk.X)
+
+    def change_to_full_win(self):
+        self.after_cancel(self.wheel_minimalisic)
+        self.clear_win()
+        self.update()
+        self.set_full_win()
+        self.enter_mouse("")
+        self.combo_win.current(1)
 
     def enter_mouse(self, event):
         if self.combo_win.current() == 0 or 1:
@@ -121,21 +132,23 @@ class Aplication(tk.Tk):
         self.bar_ram_mini = ttk.Progressbar(self, length=100)
         self.bar_ram_mini.pack(side=tk.LEFT)
 
-        ttk.Button(self, text="Full", width=5).pack(side=tk.RIGHT)
+        ttk.Button(self, text="Full", width=5, command=self.change_to_full_win).pack(side=tk.RIGHT)
         ttk.Button(self, text="Move", width=5, command=self.move_win).pack(side=tk.RIGHT)
 
         self.update()
         self.config_minimalistic_win()
 
     def config_minimalistic_win(self):
+        cpu_percent = self.cpu.cpu_usage_mini()
+        ram_percent = self.cpu.ram_usage()[2]
         self.mini_label.configure(
-            text=f"       CPU: {self.cpu.cpu_usage_mini()}%               RAM: {self.cpu.ram_usage()[2]}%")
+            text=f"       CPU: {cpu_percent}%               RAM: {ram_percent}%")
 
        # Ditale Version
        # self.mini_label.configure(
        #    text=f" CPU usage: {self.cpu.cpu_usage_mini()}%   RAM usage: {self.cpu.ram_usage()[2]}%")
 
-        self.bar_cpu_mini.configure(value=self.cpu.cpu_usage_mini())
-        self.bar_ram_mini.configure(value=self.cpu.ram_usage()[2])
+        self.bar_cpu_mini.configure(value=cpu_percent)
+        self.bar_ram_mini.configure(value=ram_percent)
 
-        self.wheel = self.after(1000, self.config_minimalistic_win)
+        self.wheel_minimalisic = self.after(1000, self.config_minimalistic_win)
