@@ -27,18 +27,15 @@ class Aplication(tk.Tk):
         self.title("CPU-RAM monitor")
 
     def set_ui(self): # Создание UI
-        exit_btn = ttk.Button(self, text="Exit", command=self.app_exit)
-        exit_btn.pack(fill=tk.X)
-
-        self.bar_manual = ttk.LabelFrame(self, text="Manual")
-        self.bar_manual.pack(fill=tk.X)
+        self.bar_manual = ttk.LabelFrame(self, text="CPU-RAM monitor")
+        self.bar_manual.pack(fill=tk.BOTH)
 
         self.combo_win = ttk.Combobox(self.bar_manual, values=["hide", "don`t hide", "min"], state="readonly", width=10)
         self.combo_win.current(1) # Don`t Hide
         self.combo_win.pack(side=tk.LEFT)
 
         ttk.Button(self.bar_manual, text="Move", command=self.move_win).pack(side=tk.LEFT)
-        ttk.Button(self.bar_manual, text=">>>").pack(side=tk.LEFT)
+        ttk.Button(self.bar_manual, text="Exit", command=self.app_exit).pack(side=tk.LEFT)
 
         self.bar_power = ttk.LabelFrame(self, text="Power")
         self.bar_power.pack(fill=tk.BOTH)
@@ -143,10 +140,6 @@ class Aplication(tk.Tk):
         ram_percent = self.cpu.ram_usage()[2]
         self.mini_label.configure(
             text=f"       CPU: {cpu_percent}%               RAM: {ram_percent}%")
-
-       # Ditale Version
-       # self.mini_label.configure(
-       #    text=f" CPU usage: {self.cpu.cpu_usage_mini()}%   RAM usage: {self.cpu.ram_usage()[2]}%")
 
         self.bar_cpu_mini.configure(value=cpu_percent)
         self.bar_ram_mini.configure(value=ram_percent)
